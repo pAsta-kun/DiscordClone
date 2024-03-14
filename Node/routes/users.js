@@ -34,5 +34,24 @@ router.post('/create', async (req, res) => {
         mongoose.disconnect(); // Disconnect after the operation 
     }
 });
+router.post('/updateStatus', async (req, res) => {
+    await dbConnect('DiscordCloneApp')
+    try {
+        User.findByIdAndUpdate(
+            req.body.userId,  // The _id of the document
+            { $set: { status: req.body.userStatus } }, // Update operator
+            { new: true } // Option to return the updated document
+        )
+        .then(updatedUser => {
+            console.log("Updated user:", updatedUser);
+            res.status(201).json(updatedUser);
+        })
+        .catch(err => console.error("Error updating user:", err));
+    } catch {
+        res.status(400).json({ message: err.message });
+    } finally {
+        //mongoose.disconnect();
+    }
+})
 
 module.exports = router;
