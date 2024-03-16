@@ -3,6 +3,7 @@ const User = require('../models/user');
 const router = express.Router();
 const dbConnect = require('../config/db');
 const mongoose = require('mongoose');
+const user = require('../models/user');
 
 // Get all posts
 router.get('/', async (req, res) => {
@@ -40,7 +41,7 @@ router.post('/updateStatus', async (req, res) => {
         User.findByIdAndUpdate(
             req.body.userId,  // The _id of the document
             { $set: { status: req.body.userStatus } }, // Update operator
-            { new: true } // Option to return the updated document
+            { new: true }
         )
         .then(updatedUser => {
             console.log("Updated user:", updatedUser);
@@ -51,6 +52,21 @@ router.post('/updateStatus', async (req, res) => {
         res.status(400).json({ message: err.message });
     } finally {
         //mongoose.disconnect();
+    }
+})
+router.post('/addFriend', async(req, res) => {
+    await dbConnect('DiscordCloneApp');
+    try {
+        User.findByIdAndUpdate(
+            req.body.userId, 
+            { $push: { friends: req.body.friendId } },
+            { new: true}
+        ).then(updatedUser => {
+            console.log("Updated user:", updatedUser);
+            res.status(201).json(updatedUser);
+        }).catch(err => console.error("Error updating user:", err));
+    } catch {
+        res.status(400).json({message: err.message})
     }
 })
 
