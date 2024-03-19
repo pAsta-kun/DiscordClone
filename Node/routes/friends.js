@@ -84,14 +84,14 @@ router.post('/remove', async (req, res) => {
         // 1. Remove from 'userId' document
         const resultA = await User.findByIdAndUpdate(
             userId, 
-            { $pull: { friends: { id: friendId }}},  // Remove using $pull
+            { $pull: { friends: { userId: friendId }}},  // Remove using $pull
             { new: true }
         );
 
         // 2. Remove from 'friendId' document
         const resultB = await User.findByIdAndUpdate(
             friendId, 
-            { $pull: { friends: { id: userId }}},
+            { $pull: { friends: { userId: userId }}},
             { new: true }
         ); 
 
