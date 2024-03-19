@@ -4,6 +4,7 @@ const router = express.Router();
 const dbConnect = require('../config/db');
 const mongoose = require('mongoose');
 
+
 // Get all users
 router.get('/', async (req, res) => {
     await dbConnect('DiscordCloneApp')
