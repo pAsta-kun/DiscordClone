@@ -3,9 +3,8 @@ const User = require('../models/user');
 const router = express.Router();
 const dbConnect = require('../config/db');
 const mongoose = require('mongoose');
-const user = require('../models/user');
 
-// Get all posts
+// Get all users
 router.get('/', async (req, res) => {
     await dbConnect('DiscordCloneApp')
     try {
@@ -23,7 +22,6 @@ router.post('/create', async (req, res) => {
     // creates user and adds to db
     const newUser = new User({
         userName: req.body.userName,
-        email: req.body.email
     });
     try {
         // sends to DB

@@ -6,22 +6,20 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    friends: {
-        type: [String],
-        default: [],
-        required: false
-    },
+    friends: [{
+        userId: { type: String, required: true }, // Or ObjectId if storing ObjectIds
+        status: { 
+            type: String,
+            enum: ['Pending', 'Added', 'Incoming'],
+            default: 'Pending'
+        } 
+    }],
     status: {
         type: String, 
         enum: ['Online', 'Away', 'Do Not Disturb'],
         default: 'Online',
         required: false
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    }
 }, { collection: 'Users' });
 // userSchema.index({ username: 1, email: 1 }, { unique: true});
 
