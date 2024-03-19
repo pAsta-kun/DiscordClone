@@ -3,7 +3,6 @@ const User = require('../models/user');
 const router = express.Router();
 const dbConnect = require('../config/db');
 const mongoose = require('mongoose');
-const Friend = require('../models/friend');
 
 
 
@@ -11,17 +10,6 @@ router.post('/add', async (req, res) => {
     await dbConnect('DiscordCloneApp')
     try {
 
-        // //pending friend is friend sending req
-        // const pendingFriend = new Friend({
-        //     friendId: req.body.friendId
-        // });
-        // console.log(pendingFriend)
-        // //friend thats getting request
-        // const incomingFriend = new Friend({
-        //     friendId: req.body.userId,
-        //     status: "Incoming"
-        // // });
-        // console.log(incomingFriend)
         // adding pending friend to friends list
         const updatedUser = await User.findByIdAndUpdate(
             req.body.userId, 
