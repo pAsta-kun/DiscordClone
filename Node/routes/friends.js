@@ -5,6 +5,18 @@ const dbConnect = require('../config/db');
 const mongoose = require('mongoose');
 
 
+// Get all friends
+router.get('/', async (req, res) => {
+    await dbConnect('DiscordCloneApp')
+    try {
+        const usersFriends = await User.findById(req.body.userId).populate('friends'); 
+        res.json(usersFriends['friends']); 
+    } catch (err) { 
+        res.status(500).json({ message: err.message }); // Send error response
+    } finally {
+       mongoose.disconnect(); // Disconnect after the operation 
+    }
+});
 
 router.post('/add', async (req, res) => {
     await dbConnect('DiscordCloneApp')
