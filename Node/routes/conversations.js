@@ -34,4 +34,22 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/send', async(req, res) => {
+    await dbConnect('DiscordCloneApp');
+    try {
+
+        const updatedConversation = await Conversation.findOneAndUpdate(
+            { users: req.body.userId }, // Find the right conversation
+            { $push: { messages: { user: req.body.senderId, message: req.body.message }}}, // Add to 'messages'
+            { new: true } // Return the updated document
+        );
+
+        res.status(201).json(updatedConversation);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    } finally {
+        mongoose.disconnect(); // Disconnect after the operation 
+    }
+})
+
 module.exports = router;

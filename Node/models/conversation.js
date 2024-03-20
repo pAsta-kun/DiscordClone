@@ -7,7 +7,7 @@ const convoSchema = new mongoose.Schema({
         unique: true
     },
     messages: {
-        type: [String],
+        type: [Object],
         default: [],
         required: false
     },
