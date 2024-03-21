@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 router.get('/', async (req, res) => {
     await dbConnect('DiscordCloneApp')
     try {
-        const usersFriends = await User.findById(req.body.userId).populate('friends'); 
+        const usersFriends = await User.findById(req.query.userId).populate('friends'); 
         res.json(usersFriends['friends']); 
     } catch (err) { 
         res.status(500).json({ message: err.message }); // Send error response
